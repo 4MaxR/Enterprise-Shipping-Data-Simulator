@@ -343,3 +343,17 @@ delay days, utilization, and anomaly rate.
 
 Designed using real-world logistics, customs, freight forwarding,
 container shipping, and port operations concepts.
+
+---
+
+### 👨‍💻 Author
+
+**Mustafa Al-Rouby**  
+Data Engineer · Shipping & Logistics Analytics
+
+_Data architecture & engineering_  
+[GitHub](https://github.com/4MaxR/) • [LinkedIn](www.linkedin.com/in/mustafa-al-rouby-20218b171) • [Portfolio](https://alroubyds.com/)  ← replace with your actual links
+
+---
+
+*Enterprise Shipping Data Simulator — built for container logistics intelligence.*
