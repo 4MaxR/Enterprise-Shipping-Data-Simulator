@@ -24,6 +24,7 @@ and data quality anomalies for:
 - Machine Learning experimentation
 - Supply Chain and Logistics simulations
 
+```mermaid
 erDiagram
     CUSTOMERS ||--o{ SHIPMENTS : places
     SHIPMENTS ||--|| BILLS_OF_LADING : generates
@@ -32,7 +33,7 @@ erDiagram
     CONTAINERS ||--o{ TRACKING_EVENTS : has
     PORTS ||--o{ SHIPMENTS : handles
     VESSELS ||--o{ PORTS : visits
-
+```
 
 ## Scale
 
