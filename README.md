@@ -352,7 +352,7 @@ container shipping, and port operations concepts.
 Data Engineer · Shipping & Logistics Analytics
 
 _Data architecture & engineering_  
-[GitHub](https://github.com/4MaxR/) • [LinkedIn](www.linkedin.com/in/mustafa-al-rouby-20218b171) • [Portfolio](https://alroubyds.com/)  ← replace with your actual links
+[GitHub](https://github.com/4MaxR/) • [LinkedIn](www.linkedin.com/in/mustafa-al-rouby-20218b171) • [Portfolio](https://alroubyds.com/) 
 
 ---
 
