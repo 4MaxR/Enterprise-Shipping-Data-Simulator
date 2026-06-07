@@ -99,66 +99,139 @@ output/
     part-0002.parquet
 ```
 
-## Tables
+## 📦 Core Tables
 
-### ports
+### 🚢 `ports`
+Major global ports across China, Singapore, UAE, India, Europe, the US, Latin America, and Africa.
 
-Major global ports across China, Singapore, UAE, India, Europe, the United
-States, Latin America, and Africa.
+| Column | Type |
+|--------|------|
+| `port_id` | PK |
+| `port_name` | |
+| `un_locode` | UN/LOCODE |
+| `country` | |
+| `region` | |
+| `latitude` | |
+| `longitude` | |
 
-Fields: `port_id`, `port_name`, `un_locode`, `country`, `region`, `latitude`,
-`longitude`.
+---
 
-### vessels
+### 🚢 `vessels`
+Synthetic carrier fleet with realistic container vessel capacity bands.
 
-Synthetic carrier fleet data with realistic container vessel capacity bands.
+| Column | Type |
+|--------|------|
+| `vessel_id` | PK |
+| `vessel_name` | |
+| `imo_number` | Unique |
+| `carrier` | |
+| `vessel_type` | |
+| `teu_capacity` | TEUs |
+| `build_year` | |
+| `flag_country` | |
 
-Fields: `vessel_id`, `vessel_name`, `imo_number`, `carrier`, `vessel_type`,
-`teu_capacity`, `build_year`, `flag_country`.
+---
 
-### customers
-
+### 👥 `customers`
 Global shippers, consignees, freight forwarders, and NVOCCs.
 
-Fields: `customer_id`, `company_name`, `customer_type`, `country`, `industry`.
+| Column | Type |
+|--------|------|
+| `customer_id` | PK |
+| `company_name` | |
+| `customer_type` | e.g., shipper, forwarder |
+| `country` | |
+| `industry` | |
 
-### bills_of_lading
+---
 
+### 📄 `bills_of_lading`
 Master and house Bill of Lading records with booking and freight terms.
 
-Fields: `bl_number`, `master_bl_number`, `house_bl_number`, `booking_number`,
-`issue_date`, `carrier`, `shipper_id`, `consignee_id`, `freight_terms`.
+| Column | Type |
+|--------|------|
+| `bl_number` | PK |
+| `master_bl_number` | FK to self |
+| `house_bl_number` | |
+| `booking_number` | |
+| `issue_date` | |
+| `carrier` | |
+| `shipper_id` | FK → `customers` |
+| `consignee_id` | FK → `customers` |
+| `freight_terms` | e.g., prepaid, collect |
 
-### shipments
+---
 
-Shipment-level facts with route, vessel, cargo, delay, congestion, customs risk,
-and seasonal analytics features.
+### 📦 `shipments`
+**Central fact table** – route, vessel, cargo, delays, congestion, customs risk, and seasonal analytics.
 
-Fields include: `shipment_id`, `bl_number`, `vessel_id`, `voyage_number`,
-`origin_port`, `destination_port`, `transshipment_port`, `departure_date`, `eta`,
-`actual_arrival_date`, `shipment_status`, `commodity`, `hs_code`,
-`cargo_description`, `package_count`, `package_type`, `declared_value`,
-`currency`, `planned_transit_days`, `actual_transit_days`, `delay_days`,
-`port_congestion_score`, `weather_delay_days`, `customs_risk_score`,
-`peak_season_indicator`, `anomaly_flag`.
+| Column | Description |
+|--------|-------------|
+| `shipment_id` | PK |
+| `bl_number` | FK → `bills_of_lading` |
+| `vessel_id` | FK → `vessels` |
+| `voyage_number` | |
+| `origin_port` | FK → `ports` |
+| `destination_port` | FK → `ports` |
+| `transshipment_port` | FK → `ports` (optional) |
+| `departure_date` | |
+| `eta` | |
+| `actual_arrival_date` | |
+| `shipment_status` | |
+| `commodity` | |
+| `hs_code` | |
+| `cargo_description` | |
+| `package_count` | |
+| `package_type` | |
+| `declared_value` | |
+| `currency` | |
+| `planned_transit_days` | |
+| `actual_transit_days` | |
+| `delay_days` | Derived |
+| `port_congestion_score` | 0–100 |
+| `weather_delay_days` | |
+| `customs_risk_score` | 0–100 |
+| `peak_season_indicator` | Boolean |
+| `anomaly_flag` | Boolean |
 
-### containers
+---
 
-ISO 6346-compliant container numbers with physical weights, utilization, seals,
-hazard flags, and relational keys.
+### 🧳 `containers`
+ISO 6346-compliant container data – weights, seals, hazard flags, utilization.
 
-Fields include: `container_number`, `shipment_id`, `bl_number`,
-`container_type`, `container_size`, `tare_weight_kg`, `cargo_weight_kg`,
-`gross_weight_kg`, `seal_number`, `hazardous_indicator`, `container_status`,
-`utilization_ratio`.
+| Column | Description |
+|--------|-------------|
+| `container_number` | PK |
+| `shipment_id` | FK → `shipments` |
+| `bl_number` | FK → `bills_of_lading` |
+| `container_type` | e.g., dry, reefer, tank |
+| `container_size` | e.g., 20ft, 40ft |
+| `tare_weight_kg` | |
+| `cargo_weight_kg` | |
+| `gross_weight_kg` | |
+| `seal_number` | |
+| `hazardous_indicator` | Boolean |
+| `container_status` | |
+| `utilization_ratio` | cargo / max capacity |
 
-### tracking_events
+---
 
-Lifecycle events per shipment and container. Clean records are chronological;
-anomalous records may have missing or out-of-order events.
+### ⏱️ `tracking_events`
+Lifecycle events per shipment/container.  
+> ⚠️ Clean records are **chronological**; anomalies may have missing or out-of-order events.
 
-Fields: `event_id`, `shipment_id`, `container_number`, `event_type`,
-`event_timestamp`, `event_location`, `event_location_name`, `event_status`.
+| Column | Description |
+|--------|-------------|
+| `event_id` | PK |
+| `shipment_id` | FK → `shipments` |
+| `container_number` | FK → `containers` |
+| `event_type` | e.g., departure, arrival, customs hold |
+| `event_timestamp` | |
+| `event_location` | port code or lat/lon |
+| `event_location_name` | |
+| `event_status` | |
+
+---
 
 ## ERD Description
 
