@@ -24,19 +24,14 @@ and data quality anomalies for:
 - Machine Learning experimentation
 - Supply Chain and Logistics simulations
 
-Customers
-     │
-     ▼
-Bills of Lading
-     │
-     ▼
-Shipments
-     │
- ┌───┴────┐
- ▼        ▼
-Containers Tracking Events
-
-Ports ───► Shipments ◄─── Vessels
+erDiagram
+    CUSTOMERS ||--o{ SHIPMENTS : places
+    SHIPMENTS ||--|| BILLS_OF_LADING : generates
+    SHIPMENTS }o--|| VESSELS : uses
+    SHIPMENTS ||--o{ CONTAINERS : includes
+    CONTAINERS ||--o{ TRACKING_EVENTS : has
+    PORTS ||--o{ SHIPMENTS : handles
+    VESSELS ||--o{ PORTS : visits
 
 
 ## Scale
